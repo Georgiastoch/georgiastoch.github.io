@@ -46,7 +46,7 @@
   .hero-image-overlay { position: absolute; inset: 0; background: linear-gradient(to right, var(--linen) 0%, transparent 15%); }
   .hero-scroll-hint { position: absolute; bottom: 2.5rem; right: 2.5rem; writing-mode: vertical-rl; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeIn 1s 1.2s forwards; }
   .hero-scroll-hint::after { content: ''; width: 1px; height: 50px; background: var(--ink-soft); }
-  .hero-count { position: absolute; bottom: 5rem; left: 3rem; font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--ink-soft); opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+  ..hero-count { position: absolute; bottom: 3rem; left: 3rem; font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--ink-soft); opacity: 0; animation: fadeIn 1s 1.2s forwards; z-index: 0; } font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--ink-soft); opacity: 0; animation: fadeIn 1s 1.2s forwards; }
 
   .about { background: var(--white); padding: 8rem 3rem; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; align-items: start; }
   .section-label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 1rem; position: sticky; top: 6rem; }

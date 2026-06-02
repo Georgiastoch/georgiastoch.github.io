@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georgia Stoch — Content Creator & Copywriter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --sage: #8a9e8c; --sage-light: #c8d9c9; --sage-pale: #eef3ee;
+    --linen: #f7f3ee; --linen-dark: #ede8df;
+    --terracotta: #c47a5a; --terra-light: #e8c4b0; --terra-pale: #f5ede7;
+    --ink: #2c2a26; --ink-mid: #5a5650; --ink-soft: #8c8880; --white: #fdfcfa;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--linen); color: var(--ink); overflow-x: hidden; cursor: none; }
+
+  .cursor { width: 10px; height: 10px; background: var(--terracotta); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; }
+  .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--sage); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.12s ease; transform: translate(-50%, -50%); }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: multiply; }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; letter-spacing: 0.12em; color: var(--ink); text-transform: uppercase; text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--terracotta); }
+
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+  .hero-left { background: var(--linen); display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 3rem 5rem 3rem; position: relative; }
+  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+  .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 300; line-height: 0.95; color: var(--ink); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+  .hero-name em { font-style: italic; color: var(--terracotta); }
+  .hero-tagline { font-size: 0.95rem; line-height: 1.8; color: var(--ink-mid); max-width: 340px; border-left: 1px solid var(--sage-light); padding-left: 1.25rem; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+  .hero-cta { display: flex; gap: 1rem; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+  .btn-primary { background: var(--ink); color: var(--linen); padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: none; transition: background 0.2s, transform 0.2s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--terracotta); transform: translateY(-1px); }
+  .btn-ghost { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--terracotta); }
+  .btn-ghost::after { content: '→'; transition: transform 0.2s; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-image-container { width: 100%; height: 100%; position: relative; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
+  .hero-image-container img { width: 100%; height: 100%; object-fit: cover; filter: sepia(15%) saturate(85%); }
+  .hero-image-overlay { position: absolute; inset: 0; background: linear-gradient(to right, var(--linen) 0%, transparent 15%); }
+  .hero-scroll-hint { position: absolute; bottom: 2.5rem; right: 2.5rem; writing-mode: vertical-rl; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+  .hero-scroll-hint::after { content: ''; width: 1px; height: 50px; background: var(--ink-soft); }
+  .hero-count { position: absolute; bottom: 5rem; left: 3rem; font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--ink-soft); opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+
+  .about { background: var(--white); padding: 8rem 3rem; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; align-items: start; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 1rem; position: sticky; top: 6rem; }
+  .section-number { font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300; color: var(--linen-dark); line-height: 1; margin-bottom: 0.5rem; position: sticky; top: 8rem; }
+  .about-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; margin-bottom: 2rem; color: var(--ink); }
+  .about-content h2 em { font-style: italic; color: var(--terracotta); }
+  .about-content p { font-size: 0.95rem; line-height: 1.9; color: var(--ink-mid); margin-bottom: 1.5rem; max-width: 560px; }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; }
+  .tag { padding: 0.4rem 1rem; border: 1px solid var(--sage-light); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); background: var(--sage-pale); }
+
+  .work { background: var(--linen); padding: 8rem 3rem; }
+  .work-header { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+  .work-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; margin-bottom: 1rem; color: var(--ink); }
+  .work-content p { font-size: 0.9rem; line-height: 1.8; color: var(--ink-mid); max-width: 480px; }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .work-card { position: relative; overflow: hidden; aspect-ratio: 4/5; background: var(--linen-dark); cursor: none; }
+  .work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.6s ease; filter: sepia(20%) saturate(80%); }
+  .work-card:hover img { transform: scale(1.04); filter: sepia(5%) saturate(100%); }
+  .work-card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(44,42,38,0.85) 0%, transparent 50%); opacity: 0; transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.75rem; }
+  .work-card:hover .work-card-overlay { opacity: 1; }
+  .work-card-type { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 0.4rem; }
+  .work-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--white); line-height: 1.2; }
+  .work-card-note { font-size: 0.65rem; color: rgba(253,252,250,0.5); margin-top: 0.5rem; letter-spacing: 0.05em; }
+  .work-card-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; background: var(--linen-dark); }
+  .placeholder-text { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); text-align: center; padding: 0 1rem; }
+
+  .services { background: var(--ink); padding: 8rem 3rem; color: var(--linen); }
+  .services-header { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+  .services-header .section-label { color: var(--terra-light); }
+  .services-header .section-number { color: rgba(255,255,255,0.06); }
+  .services-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--linen); margin-bottom: 1rem; }
+  .services-content h2 em { color: var(--terracotta); }
+  .services-content p { font-size: 0.9rem; line-height: 1.8; color: rgba(247,243,238,0.6); max-width: 480px; }
+  .services-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .service-item { padding: 2.5rem; border: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, border-color 0.3s; }
+  .service-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(196,122,90,0.3); }
+  .service-num { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; color: var(--terracotta); margin-bottom: 1.25rem; letter-spacing: 0.1em; }
+  .service-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--linen); margin-bottom: 0.75rem; }
+  .service-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(247,243,238,0.55); }
+
+  .thinking { background: var(--terra-pale); padding: 8rem 3rem; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; align-items: start; }
+  .thinking-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--ink); margin-bottom: 1.5rem; }
+  .thinking-content h2 em { color: var(--terracotta); }
+  .strategy-card { background: var(--white); padding: 2.5rem; margin-bottom: 1.5rem; }
+  .strategy-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+  .strategy-card .meta { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 1.25rem; }
+  .strategy-card p { font-size: 0.875rem; line-height: 1.85; color: var(--ink-mid); margin-bottom: 1rem; }
+  .strategy-card .pillars { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .pillar { padding: 0.35rem 0.85rem; background: var(--terra-pale); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--terracotta); }
+
+  .contact { background: var(--sage-pale); padding: 8rem 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; min-height: 60vh; }
+  .contact-left h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4.5vw, 4.5rem); font-weight: 300; line-height: 1.05; color: var(--ink); margin-bottom: 2rem; }
+  .contact-left h2 em { color: var(--terracotta); font-style: italic; }
+  .contact-left p { font-size: 0.95rem; line-height: 1.85; color: var(--ink-mid); max-width: 380px; margin-bottom: 2.5rem; }
+  .contact-ig { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.75rem; background: var(--ink); color: var(--linen); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: background 0.2s, transform 0.2s; }
+  .contact-ig:hover { background: var(--terracotta); transform: translateY(-2px); }
+  .contact-ig svg { width: 16px; height: 16px; }
+  .contact-right { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 300; font-style: italic; line-height: 1.5; color: var(--ink-mid); border-left: 2px solid var(--sage-light); padding-left: 1.75rem; }
+  .contact-values { display: flex; flex-direction: column; gap: 1rem; }
+  .value-row { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: var(--ink-mid); letter-spacing: 0.05em; }
+  .value-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+
+  footer { background: var(--ink); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  footer .logo { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,243,238,0.4); }
+  footer .copy { font-size: 0.7rem; color: rgba(247,243,238,0.25); letter-spacing: 0.08em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { gap: 1.25rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 6rem 1.5rem 3rem; }
+    .about, .thinking { grid-template-columns: 1fr; gap: 2rem; padding: 5rem 1.5rem; }
+    .work { padding: 5rem 1.5rem; }
+    .work-header { grid-template-columns: 1fr; gap: 2rem; }
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+    .services { padding: 5rem 1.5rem; }
+    .services-header { grid-template-columns: 1fr; gap: 2rem; }
+    .services-list { grid-template-columns: 1fr; }
+    .contact { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Georgia Stoch</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Content Creator & Copywriter</p>
+    <h1 class="hero-name">Georgia<br><em>Stoch</em></h1>
+    <p class="hero-tagline">Content for people who need advice, inspiration, and a daily reminder that tomorrow is a new day.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Let's talk</a>
+    </div>
+    <span class="hero-count">Sydney, NSW &mdash; 2026</span>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-container">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80&auto=format&fit=crop" alt="Soft natural landscape, placeholder image" />
+      <div class="hero-image-overlay"></div>
+    </div>
+    <div class="hero-scroll-hint">Scroll</div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div>
+    <p class="section-label reveal">About</p>
+    <p class="section-number reveal">01</p>
+  </div>
+  <div class="about-content">
+    <h2 class="reveal">Not your average<br><em>wellness voice.</em></h2>
+    <p class="reveal">I'm Georgia, a content creator and copywriter based in Sydney. I make health and wellness content for people who don't do generic. No toxic positivity. No perfectly curated lives. Just honest storytelling, slow-living aesthetics, and the kind of content that makes you feel less alone.</p>
+    <p class="reveal">With a Diploma in Social Media Marketing and years on the customer service frontline, I understand audiences from the inside out. I know what builds trust, what stops a scroll, and what makes someone actually feel something.</p>
+    <p class="reveal">I bring a soft-alternative perspective to wellness content. Grounded, real, and always intentional.</p>
+    <div class="about-tags reveal">
+      <span class="tag">Health & Wellness</span>
+      <span class="tag">Slow Living</span>
+      <span class="tag">Instagram Content</span>
+      <span class="tag">Copywriting</span>
+      <span class="tag">Community Management</span>
+      <span class="tag">Content Strategy</span>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="work-header">
+    <div>
+      <p class="section-label reveal">Work</p>
+      <p class="section-number reveal">02</p>
+    </div>
+    <div class="work-content">
+      <h2 class="reveal">Selected work<br>& <em>concepts.</em></h2>
+      <p class="reveal">A mix of real-world projects and concept work, showing both creative execution and strategic thinking. Concept pieces are clearly labelled.</p>
+    </div>
+  </div>
+  <div class="work-grid">
+    <div class="work-card reveal">
+      <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=75&auto=format&fit=crop" alt="Morning ritual content concept" />
+      <div class="work-card-overlay">
+        <span class="work-card-type">Instagram Content</span>
+        <p class="work-card-title">Morning ritual series</p>
+        <span class="work-card-note">Concept work</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <img src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4a7?w=600&q=75&auto=format&fit=crop" alt="Winter Magic Festival social content" />
+      <div class="work-card-overlay">
+        <span class="work-card-type">Event Marketing</span>
+        <p class="work-card-title">Winter Magic Festival</p>
+        <span class="work-card-note">Live project</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=75&auto=format&fit=crop" alt="Wellness copywriting concept" />
+      <div class="work-card-overlay">
+        <span class="work-card-type">Copywriting</span>
+        <p class="work-card-title">Rest is productive too</p>
+        <span class="work-card-note">Concept work</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <img src="https://images.unsplash.com/photo-1476611317561-60117649dd94?w=600&q=75&auto=format&fit=crop" alt="Nature and grounding content concept" />
+      <div class="work-card-overlay">
+        <span class="work-card-type">Instagram Content</span>
+        <p class="work-card-title">Grounding in nature</p>
+        <span class="work-card-note">Concept work</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <div class="work-card-placeholder">
+        <span class="placeholder-text">EVSE Photoshoot<br>Coming Soon</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <div class="work-card-placeholder">
+        <span class="placeholder-text">Winter Magic<br>Content Drop</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <p class="section-label reveal">Services</p>
+      <p class="section-number reveal">03</p>
+    </div>
+    <div class="services-content">
+      <h2 class="reveal">What I can<br>do for <em>you.</em></h2>
+      <p class="reveal">Every piece of content I create is intentional, audience-led, and built to feel human. Not just pretty. Purposeful.</p>
+    </div>
+  </div>
+  <div class="services-list">
+    <div class="service-item reveal">
+      <p class="service-num">01</p>
+      <h3 class="service-title">Social Media Content Creation</h3>
+      <p class="service-desc">Instagram-first content that stops the scroll. Reels, carousels, static posts and captions built around your audience's real needs, not trends for trends' sake.</p>
+    </div>
+    <div class="service-item reveal">
+      <p class="service-num">02</p>
+      <h3 class="service-title">Copywriting</h3>
+      <p class="service-desc">Words that sound like a human wrote them. Captions, bios, website copy, and campaign messaging with personality, warmth, and a clear point of view.</p>
+    </div>
+    <div class="service-item reveal">
+      <p class="service-num">03</p>
+      <h3 class="service-title">Content Strategy</h3>
+      <p class="service-desc">A content plan that actually makes sense for your brand. Pillars, posting cadence, audience mapping and messaging direction, all tied to a real goal.</p>
+    </div>
+    <div class="service-item reveal">
+      <p class="service-num">04</p>
+      <h3 class="service-title">Community Management</h3>
+      <p class="service-desc">Showing up in the comments and DMs in a way that builds genuine community, not just follower counts. Because connection converts better than any ad ever will.</p>
+    </div>
+  </div>
+</section>
+
+<section class="thinking" id="thinking">
+  <div>
+    <p class="section-label reveal">Thinking</p>
+    <p class="section-number reveal">04</p>
+  </div>
+  <div class="thinking-content">
+    <h2 class="reveal">The strategy<br>behind the <em>content.</em></h2>
+    <div class="strategy-card reveal">
+      <p class="meta">Content Strategy Brief &mdash; Concept</p>
+      <h3>Wellness brand for the non-wellness person</h3>
+      <p>Most wellness content talks to people who are already well. This brief targets the gap: people who are struggling, sceptical of wellness culture, and just trying to get through the week.</p>
+      <p>The strategy centres on radical honesty, low-barrier entry content, and a community-first approach to building trust before asking for anything in return.</p>
+      <div class="pillars">
+        <span class="pillar">Honest storytelling</span>
+        <span class="pillar">Community-first</span>
+        <span class="pillar">Low-barrier entry</span>
+        <span class="pillar">Anti-toxic-positivity</span>
+      </div>
+    </div>
+    <div class="strategy-card reveal">
+      <p class="meta">Caption Framework &mdash; Concept</p>
+      <h3>The "tomorrow is a new day" format</h3>
+      <p>A repeatable Instagram caption structure built on three beats: acknowledge the hard thing, reframe it without dismissing it, close with one small actionable thought. No inspiration-porn. Just honest, warm, useful.</p>
+      <div class="pillars">
+        <span class="pillar">Acknowledge</span>
+        <span class="pillar">Reframe</span>
+        <span class="pillar">One small thing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-left">
+    <h2 class="reveal">Let's make<br>something<br><em>real.</em></h2>
+    <p class="reveal">Whether you're a brand looking for a content partner or an individual who wants to tell their story better, I'd love to hear from you. Reach out on Instagram and let's start a conversation.</p>
+    <a href="https://www.instagram.com/georgiastoch" target="_blank" class="contact-ig reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      @georgiastoch
+    </a>
+  </div>
+  <div class="contact-right">
+    <blockquote class="contact-quote reveal">"Strategy and soul. Because one without the other is just noise."</blockquote>
+    <div class="contact-values reveal">
+      <div class="value-row"><span class="value-dot"></span>Health & Wellness Content</div>
+      <div class="value-row"><span class="value-dot"></span>Based in Sydney, NSW</div>
+      <div class="value-row"><span class="value-dot"></span>Available for brand partnerships</div>
+      <div class="value-row"><span class="value-dot"></span>Open to freelance & full-time roles</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="logo">Georgia Stoch</span>
+  <span class="copy">&copy; 2026. All rights reserved.</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 5 + 'px';
+    cursor.style.top = my - 5 + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
